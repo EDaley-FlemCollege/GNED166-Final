@@ -62,6 +62,34 @@ with defoTab:
     else:
         st.write(f"No data available for {selectedCountry}.")
 
+with compTab:
+    # List of all available countries
+    countries = data['Country'].unique()
+    stats = data.columns.tolist()
+
+    # Create a dropdown selectbox
+    selectedStat = st.selectbox('Select Statistic', stats[2:], key='compTabSC')
+
+    # Multiselect widget to select countries
+    selectedCountries = st.multiselect('Select countries', [getCountryName(c) for c in countries])
+
+    # Get the alpha-3 country codes for selected countries one by one
+    selectedCountryCodes = [getAlpha3(country) for country in selectedCountries]
+
+    # Filter the DataFrame for selected countries
+    filteredData = data[data['Country'].isin(selectedCountryCodes)]
+
+    if not filteredData.empty: 
+        # Display data
+        catDF = pd.DataFrame()
+        for code, info in filteredData.groupby('Country'):
+            info = info[['Year', selectedStat]].set_index('Year').rename(columns={selectedStat: getCountryName(code)})
+            catDF = pd.concat([catDF, info], axis=1)
+        st.line_chart(catDF)
+    else:
+        st.write(f"No data available for {selectedCountries}.")
+
+
 with leaderTab:
     # Get unique Years names
     years = data['Year'].unique()
