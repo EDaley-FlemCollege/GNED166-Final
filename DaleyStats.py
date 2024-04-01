@@ -22,6 +22,14 @@ data = pd.read_csv('Data.csv')
 
 popTab, defoTab, compTab, leaderTab = st.tabs(['Population', 'Deforestation', 'Comparisons', 'Leaderboards'])
 
+def display_footer():
+    st.markdown("---")
+    st.write("GitHub Repository: https://github.com/EDaley-FlemCollege/GNED166-Final")
+    with st.container(border=True):
+        st.write("Data Sources")
+        st.write('The Global Carbon Budget 2023 (Friedlingstein et al., 2023b, ESSD)')
+        st.write('United Nations, Department of Economic and Social Affairs, Population Division (2022). World Population Prospects 2022, Online Edition.')
+
 with popTab:
     # Get unique country names
     countries = data['Country'].unique()
@@ -143,3 +151,6 @@ with leaderTab:
     for i in range(6) :
         st.write(titleList[i])  # Write the title
         st.table(tableList[i].set_index('Placement', drop=True))  # Display the corresponding table without index column
+
+# Display source and GitHub link on all tabs
+display_footer()
