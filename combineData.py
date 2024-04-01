@@ -2,11 +2,15 @@ import pandas as pd
 import pycountry
 import datetime
 
+# Define the baseline year
+baselineYear = 1950
+
 def main():
     fixUnData('UnPop.csv')
     mainDF = createDf()
+    mainDF = mainDF.groupby('Country').apply(calculate_percent_increase)
     saveDf('Data', mainDF)
-    corrDF = createCountryDf(mainDF)
+    #corrDF = createCountryDf(mainDF)
     #saveDf('correlationCoefficients', corrDF)
 
 def getAlpha3(countryName):
@@ -50,6 +54,29 @@ def createDf() :
     mainDF['Total-Territorial'] = mainDF['Population'] * mainDF['PerCap-Territorial']
     mainDF['Total-Consumption'] = mainDF['Population'] * mainDF['PerCap-Consumption']
     return mainDF
+
+# Function to calculate percent increase
+def calculate_percent_increase(group):
+    # Find the index of the first non-zero entry for each statistic
+    firstIndex = group.ne(0).idxmax()
+    
+    # Use the index to get the value of each statistic from the first non-zero entry
+    baselinePopulation = group.loc[firstIndex['Population'], 'Population']
+    baselineDeforestation = group.loc[firstIndex['Deforestation'], 'Deforestation']
+    baselineHarvest = group.loc[firstIndex['Harvest'], 'Harvest']
+    baselinePerCapTerritorial = group.loc[firstIndex['PerCap-Territorial'], 'PerCap-Territorial']
+    baselineTotalTerritorial = group.loc[firstIndex['Total-Territorial'], 'Total-Territorial']
+
+    # Calculate percent increase only for rows after the first non-zero index
+    group.loc[firstIndex['Population']:, 'Population-Increase'] = ((group['Population'] - baselinePopulation) / baselinePopulation) * 100
+    group.loc[firstIndex['Deforestation']:, 'Deforestation-Increase'] = ((group['Deforestation'] - baselineDeforestation) / baselineDeforestation) * 100
+    group.loc[firstIndex['Harvest']:, 'Harvest-Increase'] = ((group['Harvest'] - baselineHarvest) / baselineHarvest) * 100
+    group.loc[firstIndex['PerCap-Territorial']:, 'PerCap-Territorial-Increase'] = ((group['PerCap-Territorial'] - baselinePerCapTerritorial) / baselinePerCapTerritorial) * 100
+    group.loc[firstIndex['Total-Territorial']:, 'Total-Territorial-Increase'] = ((group['Total-Territorial'] - baselineTotalTerritorial) / baselineTotalTerritorial) * 100
+
+
+    return group
+
 
 def saveDf(name, data, index=False) :
     data.to_csv(f'{name}.csv', index=index)

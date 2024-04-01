@@ -39,7 +39,7 @@ with popTab:
     if not filteredData.empty: 
         # Display data
         st.write(f"Data for {selectedCountry}")
-        st.line_chart(filteredData, x='Year', y=['Population', 'PerCap-Territorial', 'Total-Territorial'])
+        st.line_chart(filteredData, x='Year', y=['Population-Increase', 'PerCap-Territorial-Increase', 'Total-Territorial-Increase'])
     else:
         st.write(f"No data available for {selectedCountry}.")
 
@@ -51,7 +51,7 @@ with defoTab:
     selectedCountry = st.selectbox('Select Country', [getCountryName(c) for c in countries], key='defoTabSC')
 
     # Streamlit app
-    st.title(f'Population Data for {selectedCountry}')
+    st.title(f'Deforestation Data for {selectedCountry}')
 
     # Filter data by selected country
     filteredData = data[data['Country'] == getAlpha3(selectedCountry)]
@@ -60,7 +60,7 @@ with defoTab:
     if not filteredData.empty: 
         # Display data
         st.write(f"Data for {selectedCountry}")
-        st.line_chart(filteredData, x='Year', y=['Deforestation', 'Harvest', 'Total-Territorial'])
+        st.line_chart(filteredData, x='Year', y=['Deforestation-Increase', 'Harvest-Increase', 'Total-Territorial-Increase'])
     else:
         st.write(f"No data available for {selectedCountry}.")
 
