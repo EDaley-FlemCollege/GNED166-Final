@@ -95,7 +95,7 @@ with compTab:
             catDF = pd.concat([catDF, info], axis=1)
         st.line_chart(catDF)
     else:
-        st.write(f"No data available for {selectedCountries}.")
+        st.write(f"No data selected.")
 
 
 with leaderTab:
