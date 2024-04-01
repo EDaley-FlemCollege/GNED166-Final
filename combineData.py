@@ -9,7 +9,7 @@ def main():
     corrDF = createCountryDf(mainDF)
     #saveDf('correlationCoefficients', corrDF)
 
-def get_alpha3(countryName):
+def getAlpha3(countryName):
     try:
         country = pycountry.countries.get(name=countryName)
         return country.alpha_3
@@ -20,7 +20,7 @@ def fixUnData(path):
     unDF = pd.read_csv(path)
     unDF = unDF[['Location', 'Time', 'PopTotal']]
     # Apply the function to convert country names to alpha-3 codes
-    unDF['Location'] = unDF['Location'].apply(lambda x: get_alpha3(x) if pd.notnull(x) else None)
+    unDF['Location'] = unDF['Location'].apply(lambda x: getAlpha3(x) if pd.notnull(x) else None)
     # Drop records where alpha-3 code is not found
     unDF = unDF.dropna(subset=['Location'])
     # Drop rows where 'Time' is in a future year
