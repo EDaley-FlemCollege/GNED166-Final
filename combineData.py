@@ -3,7 +3,7 @@ import pycountry
 
 def main():
     mainDF = createDf()
-    corrDF = createCountryDf(mainDF)
+    corrDF = createCountryDf(mainDF, char=False)
     saveDf('correlationCoefficients', corrDF)
 
 def createDf() :
@@ -53,8 +53,6 @@ def createCountryDf(data, char=True) :
     # Create a new dataframe with country and correlation coefficient
     correlationDF = pd.DataFrame(correlationData)
     return correlationDF
-
-print("Correlation coefficients saved to correlationCoefficients.csv")
 
 if __name__ == '__main__':
     main()
