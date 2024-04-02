@@ -1,4 +1,8 @@
-*.csv
+deforrest.csv
+perCapita.csv
+population.csv
+unPop.csv
 venv
 __pycache__
 .vscode
+CountryData
