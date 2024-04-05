@@ -17,10 +17,27 @@ def getAlpha3(countryName):
     except AttributeError:
         return None
 
+introText = """
+**Understanding the Interplay of Population Growth, Deforestation, and Global Warming**\n
+In a world where the consequences of our actions are becoming increasingly evident, it's paramount to grasp the intricate connections between human activity and the environment. Our website serves as a beacon of knowledge, shedding light on two critical pillars shaping our planet's future: population growth and deforestation.\n
+**Visualizing Data**\n
+Through insightful graphs and illustrations, we harness data sourced from authoritative bodies such as the Global Carbon Project and the UN Department of Economic and Social Affairs. These visual representations serve as windows into the complex dynamics shaping our world, offering clarity and comprehension amidst the sea of information.\n
+**Population Growth**\n
+With each passing moment, the global population swells, placing unprecedented demands on our planet's resources. While population growth signifies progress and vitality in societies worldwide, its ramifications ripple across social, economic, and environmental landscapes. From strained infrastructure to heightened competition for finite resources, the impacts are palpable.\n
+**Deforestation**\n
+In tandem with population growth, rampant deforestation further exacerbates the environmental challenges we face. The relentless pursuit of agricultural expansion and urban development has led to vast swaths of forests being cleared, disrupting ecosystems and accelerating climate change. The consequences are dire, threatening biodiversity, exacerbating carbon emissions, and jeopardizing the very balance of our planet.\n
+**Consequences**\n
+The repercussions of population growth and deforestation extend far beyond mere statistics. They manifest in tangible ways, shaping our societies, economies, and environments in profound ways. Social disparities widen as resources dwindle. Economies falter under the weight of unsustainable practices. And our planet suffers the irreversible scars of ecological degradation.\n
+**Empowering Change Through Knowledge**\n
+Yet, amidst the challenges lie opportunities for transformation. By understanding the interplay of population growth, deforestation, and global warming, we equip ourselves with the tools needed to enact meaningful change. Through education, advocacy, and collective action, we can forge a path towards a more sustainable future, one where harmony between humanity and the natural world is not just a distant dream but a tangible reality.\n
+**Explore, Learn, Act**\n
+Join us as we embark on a journey of discovery, navigating the intersections of population growth, deforestation, and global warming. Through the lens of data and the power of visualization, let us illuminate pathways towards a more equitable, sustainable world—for the benefit of all inhabitants, present and future.\n
+"""
+
 # Load your data
 data = pd.read_csv('Data.csv')
 
-popTab, defoTab, compTab, leaderTab = st.tabs(['Population', 'Deforestation', 'Comparisons', 'Leaderboards'])
+introTab, popTab, defoTab, compTab, leaderTab = st.tabs(['Preamble', 'Population', 'Deforestation', 'Comparisons', 'Leaderboards'])
 
 def display_footer():
     st.markdown("---")
@@ -29,6 +46,10 @@ def display_footer():
         st.write("Data Sources")
         st.write('The Global Carbon Budget 2023 (Friedlingstein et al., 2023b, ESSD)')
         st.write('United Nations, Department of Economic and Social Affairs, Population Division (2022). World Population Prospects 2022, Online Edition.')
+
+with introTab:
+    st.title(f'Welcome to Daley Stats')
+    st.markdown(introText)
 
 with popTab:
     # Get unique country names
