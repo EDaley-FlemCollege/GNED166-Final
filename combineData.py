@@ -22,15 +22,15 @@ def getAlpha3(countryName):
 
 def fixUnData(path):
     unDF = pd.read_csv(path)
-    unDF = unDF[['Location', 'Time', 'PopTotal']]
+    unDF = unDF[['ISO3_code', 'Time', 'PopTotal']]
     # Apply the function to convert country names to alpha-3 codes
-    unDF['Location'] = unDF['Location'].apply(lambda x: getAlpha3(x) if pd.notnull(x) else None)
+    #unDF['Location'] = unDF['Location'].apply(lambda x: getAlpha3(x) if pd.notnull(x) else None)
     # Drop records where alpha-3 code is not found
-    unDF = unDF.dropna(subset=['Location'])
+    unDF = unDF.dropna(subset=['ISO3_code'])
     # Drop rows where 'Time' is in a future year
     unDF = unDF[unDF['Time'] <= datetime.datetime.now().year]
     # Rename 'Location' column to 'Country' and 'Time' column to 'Year'
-    unDF = unDF.rename(columns={'Location': 'Country', 'Time': 'Year'})
+    unDF = unDF.rename(columns={'ISO3_code': 'Country', 'Time': 'Year'})
     # Drop duplicate entries based on 'Country' and 'Year'
     unDF = unDF.drop_duplicates(subset=['Country', 'Year'])
     saveDf('population', unDF)
